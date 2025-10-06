@@ -1,6 +1,8 @@
-import "./App.css";
 import Button from "./components/Button";
+import CardButton from "./components/CardButton";
 import JournalItem from "./components/JournalItem";
+
+import "./App.css";
 
 function App() {
   const data = [
@@ -19,16 +21,20 @@ function App() {
   return (
     <>
       <Button />
-      <JournalItem
-        title={data[0].title}
-        text={data[0].text}
-        date={data[0].date}
-      />
-      <JournalItem
-        title={data[1].title}
-        text={data[1].text}
-        date={data[1].date}
-      />
+      <CardButton>
+        <JournalItem
+          title={data[0].title}
+          text={data[0].text}
+          date={data[0].date}
+        />
+      </CardButton>
+      <CardButton>
+        <JournalItem
+          title={data[1].title}
+          text={data[1].text}
+          date={data[1].date}
+        />
+      </CardButton>
     </>
   );
 }
