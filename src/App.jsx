@@ -1,7 +1,11 @@
-import Button from "./components/Button";
-import CardButton from "./components/CardButton";
-import JournalItem from "./components/JournalItem";
-
+import {
+  CardButton,
+  JournalItem,
+  Header,
+  JournalAddButton,
+  JournalList,
+} from "./components";
+import { Body, SidePanel } from "./layouts";
 import "./App.css";
 
 function App() {
@@ -19,23 +23,29 @@ function App() {
   ];
 
   return (
-    <>
-      <Button />
-      <CardButton>
-        <JournalItem
-          title={data[0].title}
-          text={data[0].text}
-          date={data[0].date}
-        />
-      </CardButton>
-      <CardButton>
-        <JournalItem
-          title={data[1].title}
-          text={data[1].text}
-          date={data[1].date}
-        />
-      </CardButton>
-    </>
+    <div className="app">
+      <SidePanel>
+        <Header />
+        <JournalAddButton />
+        <JournalList>
+          <CardButton>
+            <JournalItem
+              title={data[0].title}
+              text={data[0].text}
+              date={data[0].date}
+            />
+          </CardButton>
+          <CardButton>
+            <JournalItem
+              title={data[1].title}
+              text={data[1].text}
+              date={data[1].date}
+            />
+          </CardButton>
+        </JournalList>
+      </SidePanel>
+      <Body>Body</Body>
+    </div>
   );
 }
 
