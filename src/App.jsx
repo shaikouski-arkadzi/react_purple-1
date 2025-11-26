@@ -4,6 +4,7 @@ import {
   Header,
   JournalAddButton,
   JournalList,
+  JournalForm,
 } from "./components";
 import { Body, SidePanel } from "./layouts";
 import "./App.css";
@@ -44,7 +45,9 @@ function App() {
           </CardButton>
         </JournalList>
       </SidePanel>
-      <Body>Body</Body>
+      <Body>
+        <JournalForm />
+      </Body>
     </div>
   );
 }
