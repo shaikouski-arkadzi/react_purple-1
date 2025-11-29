@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CardButton,
   JournalItem,
@@ -9,19 +10,32 @@ import {
 import { Body, SidePanel } from "./layouts";
 import "./App.css";
 
+const INITIAL_DATA = [
+  {
+    title: "Подготовка к обновлению курсов",
+    text: "Горные походы открывают удивительные природные ландшафт",
+    date: new Date(),
+  },
+  {
+    title: "Поход в годы",
+    text: "Думал, что очень много времени",
+    date: new Date(),
+  },
+];
+
 function App() {
-  const data = [
-    {
-      title: "Подготовка к обновлению курсов",
-      text: "Горные походы открывают удивительные природные ландшафт",
-      date: new Date(),
-    },
-    {
-      title: "Поход в годы",
-      text: "Думал, что очень много времени",
-      date: new Date(),
-    },
-  ];
+  const [items, setItems] = useState(INITIAL_DATA);
+
+  const addItem = (item) => {
+    setItems((oldItems) => [
+      ...oldItems,
+      {
+        text: item.text,
+        title: item.title,
+        data: new Date(item.date),
+      },
+    ]);
+  };
 
   return (
     <div className="app">
@@ -29,7 +43,7 @@ function App() {
         <Header />
         <JournalAddButton />
         <JournalList>
-          {data.map((dataItem) => (
+          {items.map((dataItem) => (
             <CardButton>
               <JournalItem
                 title={dataItem.title}
@@ -41,7 +55,7 @@ function App() {
         </JournalList>
       </SidePanel>
       <Body>
-        <JournalForm />
+        <JournalForm onSubmit={addItem} />
       </Body>
     </div>
   );
