@@ -12,11 +12,13 @@ import "./App.css";
 
 const INITIAL_DATA = [
   {
+    id: 1,
     title: "Подготовка к обновлению курсов",
     text: "Горные походы открывают удивительные природные ландшафт",
     date: new Date(),
   },
   {
+    id: 2,
     title: "Поход в годы",
     text: "Думал, что очень много времени",
     date: new Date(),
@@ -30,6 +32,7 @@ function App() {
     setItems((oldItems) => [
       ...oldItems,
       {
+        id: Math.max(...oldItems.map((i) => i.id)) + 1,
         text: item.text,
         title: item.title,
         data: new Date(item.date),
@@ -44,7 +47,7 @@ function App() {
         <JournalAddButton />
         <JournalList>
           {items.map((dataItem) => (
-            <CardButton>
+            <CardButton key={dataItem.id}>
               <JournalItem
                 title={dataItem.title}
                 text={dataItem.text}
