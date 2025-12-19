@@ -26,7 +26,7 @@ export function JournalForm({ onSubmit }) {
       onSubmit(values);
       dispatchForm({ type: "CLEAR" });
     }
-  }, [isFormReadyToSubmit]);
+  }, [isFormReadyToSubmit, onSubmit, values]);
 
   const onChange = (e) => {
     dispatchForm({
