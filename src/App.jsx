@@ -8,6 +8,7 @@ import {
   JournalForm,
 } from "./components";
 import { Body, SidePanel } from "./layouts";
+import { UserContext } from "./context/user.context";
 import "./App.css";
 
 const INITIAL_DATA = [
@@ -42,26 +43,28 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <SidePanel>
-        <Header />
-        <JournalAddButton />
-        <JournalList>
-          {items.map((dataItem) => (
-            <CardButton key={dataItem.id}>
-              <JournalItem
-                title={dataItem.title}
-                text={dataItem.text}
-                date={dataItem.date}
-              />
-            </CardButton>
-          ))}
-        </JournalList>
-      </SidePanel>
-      <Body>
-        <JournalForm onSubmit={addItem} />
-      </Body>
-    </div>
+    <UserContext.Provider value={{ userId: items.length }}>
+      <div className="app">
+        <SidePanel>
+          <Header />
+          <JournalAddButton />
+          <JournalList>
+            {items.map((dataItem) => (
+              <CardButton key={dataItem.id}>
+                <JournalItem
+                  title={dataItem.title}
+                  text={dataItem.text}
+                  date={dataItem.date}
+                />
+              </CardButton>
+            ))}
+          </JournalList>
+        </SidePanel>
+        <Body>
+          <JournalForm onSubmit={addItem} />
+        </Body>
+      </div>
+    </UserContext.Provider>
   );
 }
 
