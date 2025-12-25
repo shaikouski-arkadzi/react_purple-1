@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import cn from "classnames";
 import { Button } from "../Button/Button";
 import { INITIAL_STATE, formReducer } from "./JournalForm.state";
@@ -8,9 +8,28 @@ export function JournalForm({ onSubmit }) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
   const { isValid, isFormReadyToSubmit, values } = formState;
 
+  const titleRef = useRef();
+  const dateRef = useRef();
+  const postRef = useRef();
+
+  const focusError = (isValid) => {
+    switch (true) {
+      case !isValid.title:
+        titleRef.current.focus();
+        break;
+      case !isValid.date:
+        dateRef.current.focus();
+        break;
+      case !isValid.post:
+        postRef.current.focus();
+        break;
+    }
+  };
+
   useEffect(() => {
     let timerId;
     if (!isValid.date || !isValid.post || !isValid.title) {
+      focusError(isValid);
       timerId = setTimeout(() => {
         console.log("Очистка состояния");
         dispatchForm({ type: "RESET_VALIDITY" });
@@ -51,6 +70,7 @@ export function JournalForm({ onSubmit }) {
           className={cn(styles["input-title"], {
             [styles["invalid"]]: !isValid.title,
           })}
+          ref={titleRef}
         />
       </div>
       <div className={styles["form-row"]}>
@@ -67,6 +87,7 @@ export function JournalForm({ onSubmit }) {
           className={cn(styles["input"], {
             [styles["invalid"]]: !isValid.date,
           })}
+          ref={dateRef}
         />
       </div>
       <div className={styles["form-row"]}>
@@ -93,6 +114,7 @@ export function JournalForm({ onSubmit }) {
         className={cn(styles["input"], {
           [styles["invalid"]]: !isValid.post,
         })}
+        ref={postRef}
       ></textarea>
       <Button text="Сохранить" onClick={() => {}} />
     </form>
