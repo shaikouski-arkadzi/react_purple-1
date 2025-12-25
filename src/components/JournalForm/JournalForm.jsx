@@ -65,6 +65,7 @@ export function JournalForm({ onSubmit }) {
       <div>
         <Input
           type="text"
+          ref={titleRef}
           onChange={onChange}
           value={values.title}
           name="title"
@@ -78,6 +79,7 @@ export function JournalForm({ onSubmit }) {
         </label>
         <Input
           type="date"
+          ref={dateRef}
           onChange={onChange}
           name="date"
           value={values.date}
