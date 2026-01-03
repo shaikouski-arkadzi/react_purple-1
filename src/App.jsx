@@ -28,6 +28,7 @@ const INITIAL_DATA = [
 
 function App() {
   const [items, setItems] = useState(INITIAL_DATA);
+  const [userId, setUserId] = useState(1);
 
   const addItem = (item) => {
     setItems((oldItems) => [
@@ -43,7 +44,7 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={{ userId: items.length }}>
+    <UserContext.Provider value={{ userId, setUserId }}>
       <div className="app">
         <SidePanel>
           <Header />
