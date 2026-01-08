@@ -8,7 +8,7 @@ import {
   JournalForm,
 } from "./components";
 import { Body, SidePanel } from "./layouts";
-import { UserContext } from "./context/user.context";
+import { UserContextProvidev } from "./context/user.context";
 import "./App.css";
 
 const INITIAL_DATA = [
@@ -28,7 +28,6 @@ const INITIAL_DATA = [
 
 function App() {
   const [items, setItems] = useState(INITIAL_DATA);
-  const [userId, setUserId] = useState(1);
 
   const addItem = (item) => {
     setItems((oldItems) => [
@@ -44,7 +43,7 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={{ userId, setUserId }}>
+    <UserContextProvidev>
       <div className="app">
         <SidePanel>
           <Header />
@@ -65,7 +64,7 @@ function App() {
           <JournalForm onSubmit={addItem} />
         </Body>
       </div>
-    </UserContext.Provider>
+    </UserContextProvidev>
   );
 }
 
