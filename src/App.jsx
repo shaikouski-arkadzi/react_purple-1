@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import {
   CardButton,
   JournalItem,
@@ -54,24 +54,26 @@ function App() {
     }
   };
 
+  const filteredItems = useMemo(
+    () => items.filter((el) => el.userId === userId).sort(sortItems),
+    [items, userId]
+  );
+
   return (
     <div className="app">
       <SidePanel>
         <Header />
         <JournalAddButton />
         <JournalList>
-          {items
-            .filter((el) => el.userId === userId)
-            .sort(sortItems)
-            .map((dataItem) => (
-              <CardButton key={dataItem.id}>
-                <JournalItem
-                  title={dataItem.title}
-                  text={dataItem.text}
-                  date={dataItem.date}
-                />
-              </CardButton>
-            ))}
+          {filteredItems.map((dataItem) => (
+            <CardButton key={dataItem.id}>
+              <JournalItem
+                title={dataItem.title}
+                text={dataItem.text}
+                date={dataItem.date}
+              />
+            </CardButton>
+          ))}
         </JournalList>
       </SidePanel>
       <Body>
