@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   CardButton,
   JournalItem,
@@ -8,8 +8,8 @@ import {
   JournalForm,
 } from "./components";
 import { Body, SidePanel } from "./layouts";
-import { UserContextProvidev } from "./context/user.context";
 import "./App.css";
+import { UserContext } from "./context/user.context";
 
 const INITIAL_DATA = [
   {
@@ -17,17 +17,21 @@ const INITIAL_DATA = [
     title: "Подготовка к обновлению курсов",
     text: "Горные походы открывают удивительные природные ландшафт",
     date: new Date(),
+    userId: 1,
   },
   {
     id: 2,
     title: "Поход в годы",
     text: "Думал, что очень много времени",
     date: new Date(),
+    userId: 1,
   },
 ];
 
 function App() {
   const [items, setItems] = useState(INITIAL_DATA);
+
+  const { userId } = useContext(UserContext);
 
   const addItem = (item) => {
     setItems((oldItems) => [
@@ -42,14 +46,24 @@ function App() {
     ]);
   };
 
+  const sortItems = (a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  };
+
   return (
-    <UserContextProvidev>
-      <div className="app">
-        <SidePanel>
-          <Header />
-          <JournalAddButton />
-          <JournalList>
-            {items.map((dataItem) => (
+    <div className="app">
+      <SidePanel>
+        <Header />
+        <JournalAddButton />
+        <JournalList>
+          {items
+            .filter((el) => el.userId === userId)
+            .sort(sortItems)
+            .map((dataItem) => (
               <CardButton key={dataItem.id}>
                 <JournalItem
                   title={dataItem.title}
@@ -58,13 +72,12 @@ function App() {
                 />
               </CardButton>
             ))}
-          </JournalList>
-        </SidePanel>
-        <Body>
-          <JournalForm onSubmit={addItem} />
-        </Body>
-      </div>
-    </UserContextProvidev>
+        </JournalList>
+      </SidePanel>
+      <Body>
+        <JournalForm onSubmit={addItem} />
+      </Body>
+    </div>
   );
 }
 
