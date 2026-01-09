@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from "react";
+import { useState, useContext, useMemo, useCallback } from "react";
 import {
   CardButton,
   JournalItem,
@@ -33,7 +33,7 @@ function App() {
 
   const { userId } = useContext(UserContext);
 
-  const addItem = (item) => {
+  const addItem = useCallback((item) => {
     setItems((oldItems) => [
       ...oldItems,
       {
@@ -44,7 +44,7 @@ function App() {
         data: new Date(item.date),
       },
     ]);
-  };
+  }, []);
 
   const sortItems = (a, b) => {
     if (a.date < b.date) {
