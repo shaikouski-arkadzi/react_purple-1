@@ -6,7 +6,7 @@ import { INITIAL_STATE, formReducer } from "./JournalForm.state";
 import { UserContext } from "../../context/user.context";
 import styles from "./JournalForm.module.css";
 
-export function JournalForm({ onSubmit }) {
+export function JournalForm({ onSubmit, data }) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
   const { isValid, isFormReadyToSubmit, values } = formState;
 
@@ -48,8 +48,13 @@ export function JournalForm({ onSubmit }) {
     if (isFormReadyToSubmit) {
       onSubmit(values);
       dispatchForm({ type: "CLEAR" });
+      dispatchForm({ type: "SET_VALUE", payload: { userId } });
     }
-  }, [isFormReadyToSubmit, onSubmit, values]);
+  }, [isFormReadyToSubmit, onSubmit, values, userId]);
+
+  useEffect(() => {
+    dispatchForm({ type: "SET_VALUE", payload: { ...data } });
+  }, [data]);
 
   const onChange = (e) => {
     dispatchForm({
@@ -86,7 +91,9 @@ export function JournalForm({ onSubmit }) {
           ref={dateRef}
           onChange={onChange}
           name="date"
-          value={values.date}
+          value={
+            values.date ? new Date(values.date).toISOString().split("T")[0] : ""
+          }
           id="date"
           isValid={!isValid.title}
         />

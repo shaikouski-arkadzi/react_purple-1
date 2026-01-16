@@ -30,21 +30,42 @@ const INITIAL_DATA = [
 
 function App() {
   const [items, setItems] = useState(INITIAL_DATA);
+  const [selectedItem, setSelectedItem] = useState({});
 
   const { userId } = useContext(UserContext);
 
-  const addItem = useCallback((item) => {
-    setItems((oldItems) => [
-      ...oldItems,
-      {
-        id:
-          oldItems.length > 0 ? Math.max(...oldItems.map((i) => i.id)) + 1 : 1,
-        post: item.post,
-        title: item.title,
-        data: new Date(item.date),
-      },
-    ]);
-  }, []);
+  const addItem = useCallback(
+    (item) => {
+      if (!item.id) {
+        setItems((oldItems) => [
+          ...oldItems,
+          {
+            id:
+              oldItems.length > 0
+                ? Math.max(...oldItems.map((i) => i.id)) + 1
+                : 1,
+            post: item.post,
+            title: item.title,
+            date: new Date(item.date),
+            userId,
+          },
+        ]);
+      } else {
+        setItems((oldItems) =>
+          oldItems.map((i) => {
+            if (i.id === item.id) {
+              return {
+                ...item,
+                date: new Date(item.date),
+                userId,
+              };
+            } else return i;
+          })
+        );
+      }
+    },
+    [userId]
+  );
 
   const sortItems = (a, b) => {
     if (a.date < b.date) {
@@ -59,6 +80,10 @@ function App() {
     [items, userId]
   );
 
+  const setItem = (dataItem) => {
+    setSelectedItem(dataItem);
+  };
+
   return (
     <div className="app">
       <SidePanel>
@@ -66,7 +91,7 @@ function App() {
         <JournalAddButton />
         <JournalList>
           {filteredItems.map((dataItem) => (
-            <CardButton key={dataItem.id}>
+            <CardButton onClick={() => setItem(dataItem)} key={dataItem.id}>
               <JournalItem
                 title={dataItem.title}
                 post={dataItem.post}
@@ -77,7 +102,7 @@ function App() {
         </JournalList>
       </SidePanel>
       <Body>
-        <JournalForm onSubmit={addItem} />
+        <JournalForm onSubmit={addItem} data={selectedItem} />
       </Body>
     </div>
   );
