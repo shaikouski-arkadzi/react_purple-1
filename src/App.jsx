@@ -30,7 +30,7 @@ const INITIAL_DATA = [
 
 function App() {
   const [items, setItems] = useState(INITIAL_DATA);
-  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const { userId } = useContext(UserContext);
 
@@ -92,7 +92,7 @@ function App() {
     <div className="app">
       <SidePanel>
         <Header />
-        <JournalAddButton />
+        <JournalAddButton clearForm={() => setSelectedItem(null)} />
         <JournalList>
           {filteredItems.map((dataItem) => (
             <CardButton onClick={() => setItem(dataItem)} key={dataItem.id}>
