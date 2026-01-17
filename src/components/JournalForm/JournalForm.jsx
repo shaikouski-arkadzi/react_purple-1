@@ -79,6 +79,7 @@ export function JournalForm({ onSubmit, data }) {
           value={values.title}
           name="title"
           isValid={!isValid.title}
+          appearence="title"
         />
       </div>
       <div className={styles["form-row"]}>
