@@ -67,6 +67,10 @@ function App() {
     [userId]
   );
 
+  const deleteItem = (id) => {
+    setItems([...items.filter((i) => i.id !== id)]);
+  };
+
   const sortItems = (a, b) => {
     if (a.date < b.date) {
       return 1;
@@ -102,7 +106,11 @@ function App() {
         </JournalList>
       </SidePanel>
       <Body>
-        <JournalForm onSubmit={addItem} data={selectedItem} />
+        <JournalForm
+          onSubmit={addItem}
+          data={selectedItem}
+          onDelete={deleteItem}
+        />
       </Body>
     </div>
   );
